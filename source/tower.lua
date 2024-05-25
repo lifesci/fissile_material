@@ -1,4 +1,4 @@
-import "tags"
+import "constants"
 
 local pd <const> = playdate
 local gfx <const> = pd.graphics
