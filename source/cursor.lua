@@ -33,7 +33,7 @@ function Cursor:update()
         self:moveTo(self.x + self.size, self.y)
     end
     if pd.buttonJustPressed("a") then
-        Tower(self.x, self.y, self.size, 5)
+        Tower(self.x, self.y, self.size, 50)
     end
     if pd.buttonJustPressed("b") then
         Mob(self.x, self.y, 10, 1)

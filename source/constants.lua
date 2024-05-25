@@ -1,3 +1,3 @@
 TAGS = {
-    mob = 0
+    mob = 1
 }
