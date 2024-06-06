@@ -1,4 +1,6 @@
 import "constants"
+import "projectiles/bullet"
+import "CoreLibs/frameTimer"
 
 local pd <const> = playdate
 local gfx <const> = pd.graphics
@@ -26,14 +28,26 @@ function TowerTurret:init(towerBase)
     self.size = towerBase.size
     self.range = towerBase.range
     self.rotationSpeed = 5
+    self.fireRate = 10
     local img = gfx.image.new(self.size, self.size)
     gfx.pushContext(img)
-    gfx.drawRect(self.size//2 - self.size//10, self.size//2 - self.size//2, self.size//5, self.size//4)
+    gfx.drawRect(
+        self.size//2 - self.size//10,
+        self.size//2 - self.size//2,
+        self.size//5,
+        self.size//4
+    )
     gfx.popContext()
     self:setImage(img)
     self:moveTo(towerBase.x, towerBase.y)
     self:setRotation(0)
     self:add()
+    pd.frameTimer.performAfterDelay(self.fireRate, function () self:fire() end)
+end
+
+function TowerTurret:fire()
+    Bullet(self)
+    pd.frameTimer.performAfterDelay(self.fireRate, function () self:fire() end)
 end
 
 function TowerTurret:update()
