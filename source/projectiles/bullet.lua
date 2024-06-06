@@ -8,6 +8,7 @@ class("Bullet").extends(gfx.sprite)
 function Bullet:init(towerTurret)
     Bullet.super.init(self)
     self.speed = 5
+    self.damage = 10
     self.angle = towerTurret:getRotation()
     self.vector = pd.geometry.vector2D.newPolar(self.speed, self.angle)
     local img = gfx.image.new(2, 2)
@@ -23,5 +24,13 @@ function Bullet:init(towerTurret)
 end
 
 function Bullet:update()
-    self:moveTo(self.x + self.vector.x, self.y + self.vector.y)
+    local actualX, actualY, collisions, numCollisions = self:moveWithCollisions(self.x + self.vector.x, self.y + self.vector.y)
+    if numCollisions > 0 then
+        local hit = collisions[1]
+        hit.other:takeDamage(self.damage)
+    end
+end
+
+function Bullet:collisionResponse(other)
+    return gfx.sprite.kCollisionTypeOverlap
 end
