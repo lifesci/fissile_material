@@ -18,6 +18,7 @@ function Bullet:init(towerTurret)
     self:moveTo(towerTurret.x, towerTurret.y)
     self:setGroups(COLLISION_GROUPS.towerProjectile)
     self:setCollidesWithGroups(COLLISION_GROUPS.mob)
+    self:setCollideRect(0, 0, self:getSize())
     self:add()
 end
 

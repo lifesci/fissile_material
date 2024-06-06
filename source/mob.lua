@@ -15,6 +15,8 @@ function Mob:init(x, y, size, speed)
     gfx.popContext()
     self:setImage(img)
     self:moveTo(x, y)
+    self:setGroups(COLLISION_GROUPS.mob)
+    self:setCollideRect(0, 0, self:getSize())
     self:add()
 end
 
