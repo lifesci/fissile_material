@@ -6,12 +6,14 @@ local gfx <const> = pd.graphics
 
 class("Cursor").extends(gfx.sprite)
 
-function Cursor:init(x, y, size)
+function Cursor:init(x, y, board)
     Cursor.super.init(self)
-    self.size = size
-    local img = gfx.image.new(size, size)
+    self.x = x
+    self.y = y
+    self.board = board
+    local img = gfx.image.new(board.gridSize, board.gridSize)
     gfx.pushContext(img)
-    gfx.drawRect(0, 0, size, size)
+    gfx.drawRect(0, 0, board.gridSize, board.gridSize)
     gfx.popContext()
     self:setImage(img)
     self:moveTo(x, y)
