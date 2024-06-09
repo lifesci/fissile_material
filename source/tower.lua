@@ -17,6 +17,8 @@ function Tower:init(x, y, size, range)
     gfx.popContext()
     self:setImage(img)
     self:moveTo(x, y)
+    self:setCollideRect(0, 0, self:getSize())
+    self:setGroups(COLLISION_GROUPS.tower)
     self:add()
     self.towerTurret = TowerTurret(self)
 end
@@ -29,6 +31,7 @@ function TowerTurret:init(towerBase)
     self.range = towerBase.range
     self.rotationSpeed = 5
     self.fireRate = 10
+    self.shouldFire = false
     local img = gfx.image.new(self.size, self.size)
     gfx.pushContext(img)
     gfx.drawRect(
@@ -46,7 +49,9 @@ function TowerTurret:init(towerBase)
 end
 
 function TowerTurret:fire()
-    Bullet(self)
+    if self.shouldFire then
+        Bullet(self)
+    end
     pd.frameTimer.performAfterDelay(self.fireRate, function () self:fire() end)
 end
 
@@ -75,6 +80,9 @@ function TowerTurret:update()
             dr = -dr
         end
         self:setRotation(curAngle + dr)
+        self.shouldFire = true
+    else
+        self.shouldFire = false
     end
 end
 

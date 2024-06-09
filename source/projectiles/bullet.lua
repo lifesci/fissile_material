@@ -24,10 +24,16 @@ function Bullet:init(towerTurret)
 end
 
 function Bullet:update()
-    local actualX, actualY, collisions, numCollisions = self:moveWithCollisions(self.x + self.vector.x, self.y + self.vector.y)
+    local targetX = self.x + self.vector.x
+    local targetY = self.y + self.vector.y
+    local actualX, actualY, collisions, numCollisions = self:moveWithCollisions(
+        targetX,
+        targetY
+    )
     if numCollisions > 0 then
         local hit = collisions[1]
         hit.other:takeDamage(self.damage)
+        self:remove()
     end
 end
 

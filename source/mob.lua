@@ -17,6 +17,10 @@ function Mob:init(x, y, size, speed)
     self:setImage(img)
     self:moveTo(x, y)
     self:setGroups(COLLISION_GROUPS.mob)
+    self:setCollidesWithGroups({
+        COLLISION_GROUPS.tower,
+        COLLISION_GROUPS.base
+    })
     self:setCollideRect(0, 0, self:getSize())
     self:add()
 end
@@ -32,8 +36,13 @@ function Mob:update()
     local dx = centerX - self.x
     local dy = centerY - self.y
     local mag = math.sqrt(dx^2 + dy^2)
+    local targetX = self.x + dx/mag*self.speed
+    local targetY = self.y + dy/mag*self.speed
     if mag >= 1 then
-        self:moveTo(self.x + dx/mag*self.speed, self.y + dy/mag*self.speed)
+        local actualX, actualY, collisions, numCollisions = self:moveWithCollisions(
+            targetX,
+            targetY
+        )
     end
 end
 
@@ -43,4 +52,8 @@ end
 
 function Mob:isDead()
     return self.hp <= 0
+end
+
+function Mob:collisionResponse(other)
+    return gfx.sprite.kCollisionTypeSlide
 end
