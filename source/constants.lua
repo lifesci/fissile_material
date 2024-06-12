@@ -1,5 +1,6 @@
 TAGS = {
     mob = 1,
+    cursor = 2,
 }
 
 COLLISION_GROUPS = {
